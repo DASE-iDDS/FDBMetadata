@@ -1,0 +1,54 @@
+syntax = "proto3";
+package DB.FoundationDB.Proto;
+import "UUID.proto";
+import "Field.proto";
+
+
+message MergeTreePartDiskMeta {
+    string part_name = 1;
+    string disk_name = 2;
+    string path = 3;
+    string part_type = 4;
+}
+message MergeTreeDetachedPartMeta{
+    string disk_name=1;
+    string dir_name=2;
+    string part_name=3;
+}
+message MergeTreePartMeta {
+    string meta_name = 1;
+    UUID meta_uuid = 2;
+    uint64 meta_rows_count = 3;
+    uint64 meta_modification_time = 4;
+    uint64 meta_bytes_on_disk = 5;
+    repeated Range meta_minmax = 6;
+    bytes meta_checksums = 7;
+    repeated ColInfo meta_col = 8;
+    bytes meta_ttl_infos = 9;
+    repeated Field meta_partition = 10;
+    string meta_default_codec = 11;
+    bytes meta_serialization_infos = 12;
+    int32 meta_loaded_version = 13;
+    ColSize meta_total_columns_size = 14;
+    ColSize meta_total_secondary_indices_size = 15;
+    bytes meta_trx_version = 16;
+
+    message Range {
+        Field left = 1;
+        bool left_included = 2;
+        Field right = 3;
+        bool right_included = 4;
+    }
+
+    message ColInfo {
+        string column_name = 1;
+        string column_type = 2;
+    }
+
+    message ColSize{
+        uint64 col_marks = 1;
+        uint64 col_data_compressed = 2;
+        uint64 col_data_uncompressed = 3;
+    }
+
+}
